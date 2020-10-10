@@ -77,8 +77,8 @@ var LibraryPage = function() {
     var searchInput = (
       browser.isMobile ? await searchInputs.get(1) :
       await searchInputs.first());
-    await searchInput.clear();
-    await searchInput.sendKeys(searchQuery);
+    await action.clear('Search Input', searchInput);
+    await action.sendKeys('Search Input', searchInput, searchQuery);
     let searchButtonExists = await searchButton.isPresent();
     if (searchButtonExists) {
       await action.click('Search button', searchButton);
@@ -101,7 +101,7 @@ var LibraryPage = function() {
 
     await waitFor.elementToBeClickable(
       addToPlaylistButton, 'Add to playlist Icon taking too long to load');
-    await addToPlaylistButton.click();
+    await action.click('Add To Playlist Button', addToPlaylistButton);
   };
 
   this.selectLanguages = async function(languages) {
@@ -151,7 +151,8 @@ var LibraryPage = function() {
     await waitFor.visibilityOf(
       allCollectionsTitled(collectionName).first(),
       'Unable to find collection ' + collectionName);
-    await allCollectionsTitled(collectionName).first().click();
+    var allTitledCollections = allCollectionsTitled(collectionName).first();
+    await action.click('All Titled Collections', allTitledCollections);
     await waitFor.pageToFullyLoad();
   };
 
@@ -164,7 +165,7 @@ var LibraryPage = function() {
     var explorationCard = await allExplorationsTitled(explorationName).first();
     await waitFor.visibilityOf(
       explorationCard, 'Unable to find exploration ' + explorationName);
-    await explorationCard.click();
+    await action.click('Exploration Card', explorationCard);
     await waitFor.pageToFullyLoad();
   };
 
@@ -184,7 +185,7 @@ var LibraryPage = function() {
   };
 
   this.clickCreateActivity = async function() {
-    await createActivityButton.click();
+    await action.click('Create Activity Button', createActivityButton);
     await waitFor.pageToFullyLoad();
   };
 
@@ -192,7 +193,7 @@ var LibraryPage = function() {
     await waitFor.elementToBeClickable(
       explorationObjective,
       'Exploration Objective takes too long to be clickable');
-    await explorationObjective.click();
+    await action.click('Exploration Objective', explorationObjective);
   };
 
   this.findExploration = async function(explorationTitle) {
